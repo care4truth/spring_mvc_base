@@ -14,10 +14,13 @@
 		<intercept-url pattern="/**" access="ROLE_USER" />
 	</http>
 	<authentication-manager>
-		<authentication-provider user-service-ref="userDetailsService">
-			<!-- <user-service>
+		<!--   <authentication-provider user-service-ref="userDetailsService">
+			 inorder to use it as shortcut <user-service>
 				<user name="ananth" password="secret" authorities="ROLE_USER"></user>
-			</user-service> -->
+			</user-service> 
+		</authentication-provider> -->
+		<authentication-provider>
+			<jdbc-user-service data-source-ref="dataSource"/> <!--  That is enough to avoid userDetailsService bean -->
 		</authentication-provider>
 	</authentication-manager>
 	<beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -26,7 +29,7 @@
 		<beans:property name="username" value="sa"/>
 		<beans:property name="password" value="" />
 	</beans:bean>
-	<beans:bean id="userDetailsService" class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
+	<!--   --><beans:bean id="userDetailsService" class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
 		<beans:property name="dataSource" ref="dataSource"></beans:property>
 	</beans:bean>
 </beans:beans>
