@@ -1,9 +1,17 @@
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import junit.framework.TestCase;
 import junit.framework.Test;
 
 public class PasswordHash extends TestCase {
+	
+	public void testBcryptHash() {
+		String password = "secret";
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String hashedPassword =  passwordEncoder.encode(password);
+		System.out.println(hashedPassword);
+	}
 	
 	public void testMD5Hash() {
 		String password = "secret";
