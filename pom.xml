@@ -9,6 +9,24 @@
 	<name>FitnessTracker Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
+		<!-- org.slf4j/slf4j-simple -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.5.6</version>
+		</dependency>
+		<!-- org.apache.directory.server/apacheds-all -->
+		<dependency>
+			<groupId>org.apache.directory.server</groupId>
+			<artifactId>apacheds-all</artifactId>
+			<version>1.5.5</version>
+		</dependency>
+		<!-- org.springframework.security/spring-security-ldap -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-ldap</artifactId>
+			<version>4.2.3.RELEASE</version>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

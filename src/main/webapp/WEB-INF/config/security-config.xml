@@ -8,7 +8,9 @@
 	http://www.springframework.org/schema/security/spring-security.xsd 
 	http://www.springframework.org/schema/context 
 	http://www.springframework.org/schema/context/spring-context.xsd">
-
+	
+	<ldap-server ldif="classpath:users.ldif" />
+	
 	<http auto-config="true"  use-expressions="true">
 		<!-- ant-pattern style matching -->
 		<intercept-url pattern="/login.html" access="permitAll"/>
@@ -27,17 +29,24 @@
 		  <access-denied-handler error-page="/403.html" />
 		  <csrf disabled="true"/>
 	</http>
+	
+	
 	<authentication-manager>
-		<!--<authentication-provider user-service-ref="userDetailsService">
-			 inorder to use it as shortcut <user-service>
-				<user name="ananth" password="secret" authorities="ROLE_USER"></user>
-			</user-service> 
-		</authentication-provider> -->
-		<authentication-provider>
-			<password-encoder hash="bcrypt" />
-			<jdbc-user-service data-source-ref="dataSource"/> <!--  That is enough to avoid userDetailsService bean -->
-		</authentication-provider>
+		<ldap-authentication-provider
+			group-search-filter = "members={0}"
+			group-search-base = "ou=groups"
+			user-search-base="ou=people"
+			user-search-filter="uid={0}" />
+			
 	</authentication-manager>
+	
+	<!--  
+	<authentication-manager>
+		<authentication-provider>
+			<password-encoder hash="bcrypt" /> 
+			<jdbc-user-service data-source-ref="dataSource"/> --> <!--  That is enough to avoid userDetailsService bean -->
+		<!-- </authentication-provider>
+	</authentication-manager>  -->
 	<beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<beans:property name="driverClassName" value="org.h2.Driver"></beans:property>
 		<beans:property name="url" value="jdbc:h2:tcp://localhost/~/fitnessTracker" ></beans:property>
