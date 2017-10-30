@@ -54,17 +54,16 @@
         <a class="btn btn-primary" href="addGoal.html">
           Add Goal »
         </a>
-        <sec:authorize ifAnyGranted="ROLE_ADMIN">
+        <sec:authorize access="hasRole('ROLE_ADMIN')">
         <a class="btn btn-primary" href="editGoal.html">
           Edit Goal »
         </a>
         </sec:authorize>
         
-        
-        
         <a class="btn btn-primary" href="addMinutes.html">
           Add Exercise Minutes »
         </a>
+        <a class="btn btn-warning" href="j_spring_security_logout">Logout >></a>
       </div>
       <div>
       </div>

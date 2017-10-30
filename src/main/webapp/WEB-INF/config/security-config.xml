@@ -9,13 +9,26 @@
 	http://www.springframework.org/schema/context 
 	http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<http auto-config="true">
+	<http auto-config="true"  use-expressions="true">
 		<!-- ant-pattern style matching -->
-		<intercept-url pattern="/**" access="ROLE_USER" />
-		<!--<http-basic/> -->
+		<intercept-url pattern="/login.html" access="permitAll"/>
+		<intercept-url pattern="/loginFailed.html" access="permitAll" />
+		<intercept-url pattern="/logout.html" access="permitAll" />
+		<intercept-url pattern="/403.html" access="permitAll" />
+		<intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
+		<!-- <http-basic/> -->
+		 <form-login login-page="/login.html" 
+		 			 username-parameter="j_username"
+		 			 password-parameter="j_password"
+		 			 login-processing-url="/j_spring_security_check"
+		 			 authentication-failure-url="/loginFailed.html" 
+		  />
+		  <logout logout-success-url="/logout.html" logout-url="/j_spring_security_logout" />
+		  <access-denied-handler error-page="/403.html" />
+		  <csrf disabled="true"/>
 	</http>
 	<authentication-manager>
-		<!--   <authentication-provider user-service-ref="userDetailsService">
+		<!--<authentication-provider user-service-ref="userDetailsService">
 			 inorder to use it as shortcut <user-service>
 				<user name="ananth" password="secret" authorities="ROLE_USER"></user>
 			</user-service> 
@@ -25,15 +38,13 @@
 			<jdbc-user-service data-source-ref="dataSource"/> <!--  That is enough to avoid userDetailsService bean -->
 		</authentication-provider>
 	</authentication-manager>
-	
-	
 	<beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<beans:property name="driverClassName" value="org.h2.Driver"></beans:property>
 		<beans:property name="url" value="jdbc:h2:tcp://localhost/~/fitnessTracker" ></beans:property>
 		<beans:property name="username" value="sa"/>
 		<beans:property name="password" value="" />
 	</beans:bean>
-	<!--   --><beans:bean id="userDetailsService" class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
+	<!--<beans:bean id="userDetailsService" class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
 		<beans:property name="dataSource" ref="dataSource"></beans:property>
-	</beans:bean>
+	</beans:bean> -->
 </beans:beans>
